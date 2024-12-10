@@ -14,7 +14,7 @@ This project involves creating an HTTP web service that handles different HTTP v
 ## ✩ SETUP AND RUNNING
 ```
 # Build the container
-docker build -t cse138-assignment1 .
+docker build -t proj1 .
 
 # Run the container
-docker run --rm -p 8090:8090 cse138-assignment1
+docker run --rm -p 8090:8090 proj1
