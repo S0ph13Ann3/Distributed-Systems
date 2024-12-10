@@ -1,5 +1,5 @@
 ## ✩ OVERVIEW
-This assignment involves creating an HTTP web service that handles different HTTP verbs (GET and POST) and specific URI paths (/hello, /hello/<name>, and /test). The service is containerized using Docker/Podman and listens on port 8090.
+This project involves creating an HTTP web service that handles different HTTP verbs (GET and POST) and specific URI paths (/hello, /hello/<name>, and /test). The service is containerized using Docker/Podman and listens on port 8090.
 
 ## ✩ KEY FEATURES
 - HTTP endpoints with specific behaviors:
