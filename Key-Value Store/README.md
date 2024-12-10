@@ -1,19 +1,49 @@
-# CSE138_Assignment2
+## ✩ OVERVIEW
+This project involves implementing a distributed key-value store with forwarding capabilities. 
 
-# Acknowledgments
- N/A, we didn't consult anyone.
+The project is divided into two main parts:
+### Part 1: Single-site Key-Value Store
+- Implementation of a basic key-value store with HTTP API support
+- In-memory storage (no persistence required)
+- Support for basic operations: PUT, GET, DELETE
 
-# Citations 
-- when checking if a key does not exist we utlize the 'not' operator in python: https://www.geeksforgeeks.org/python-not-keyword/s
-- how we extract the value from the JSON body: https://www.geeksforgeeks.org/response-json-python-requests/
-- when checking if the JSON body has a value OR not: https://www.geeksforgeeks.org/python-or-operator/
-- python requests library: https://realpython.com/python-requests/
-- checking if a key exists in dictionary: https://codedamn.com/news/python/how-to-check-if-a-key-exists-in-python-dict 
-- how we removed a key from a dictionary: https://www.geeksforgeeks.org/python-ways-to-remove-a-key-from-dictionary/
+### Part 2: Key-Value Store with Proxies
+- Extension of Part 1 to support distributed operation
+- Implementation of main and forwarding instances
+- Network communication between instances
+- Handling of instance failures
 
-# Team Contributions
-- Sophie Hernandez: setting up the github repo, dockerfile, and implemented/completed part 1
-- Kim Pham: added 503 error handlings in get/put/delete, and modified forwarding logic
-- Samiyah Shaikh: implemented code for main and forwarding instances in part 2
+## ✩ KEY FEATURES
+- PUT /kvs/<key>
+  - Creates or updates key-value mappings
+  - Handles different response codes (200, 201, 400)
+  - Validates key length and request body format
+  - Supports any JSON value type
+- GET /kvs/<key>
+  - Retrieves values for existing keys
+  - Returns appropriate error for non-existent keys
+  - Status codes: 200 for success, 404 for not found
+- DELETE /kvs/<key>
+  - Removes key-value mappings
+  - Returns confirmation of deletion
+  - Handles non-existent key errors
 
- 
+## ✩ DISTRIBUTED SYSTEM FEATURES
+- Main instance for direct request handling
+- Forwarding instances that proxy requests to main instance
+- Error handling for instance failures (503 Service Unavailable)
+- Docker network configuration for instance communication
+
+## ✩ SETUP AND RUNNING
+```
+# Build the container
+docker build -t proj2img .
+
+# Create network
+docker network create --subnet=10.10.0.0/16 proj2net
+
+# Run main instance
+docker run --rm -p 8082:8090 --net=proj2net --ip=10.10.0.2 --name main-instance proj2img
+
+# Run forwarding instance
+docker run --rm -p 8083:8090 --net=proj2net --ip=10.10.0.3 -e FORWARDING_ADDRESS=10.10.0.2:8090 --name forwarding-instance1 proj2img
